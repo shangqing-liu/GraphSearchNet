@@ -1,0 +1,27 @@
+{
+  "settings": {
+    "number_of_shards": 5,
+    "number_of_replicas": 1
+  },
+   "mappings": {
+    "dynamic": "true",
+    "_source": {
+      "enabled": "true"
+    },
+    "properties": {
+      "code_state": {
+        "type": "dense_vector",
+        "dims": 256
+      },
+      "code_func": {
+        "type": "text"
+      },
+      "identifier": {
+        "type": "text"
+      },
+      "url": {
+        "type": "text"
+      }
+    }
+  }
+}

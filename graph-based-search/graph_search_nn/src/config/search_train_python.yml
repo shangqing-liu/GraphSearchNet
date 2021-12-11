@@ -1,0 +1,67 @@
+# Data
+dataset_name: 'python_code_search'
+trainset: '/data/code_search_data/CodeSearchNet/resources/data/python/final/jsonl/train/graph_train_gnn.jsonl.gz'
+devset: '/data/code_search_data/CodeSearchNet/resources/data/python/final/jsonl/valid/graph_valid_gnn.jsonl.gz'
+testset: '/data/code_search_data/CodeSearchNet/resources/data/python/final/jsonl/test/graph_test_gnn.jsonl.gz'
+vector_db: '/data/code_search_data/CodeSearchNet/resources/data/python_base_gz/'
+saved_vocab_file: '/graph-based-search/graph_search_nn/vocabs/python_vocab_150k_3fre_codenet_128.pkl'
+pretrained_word_embed_file:
+pretrained:
+# Output
+out_dir:  '/graph-based-search/graph_search_nn/models/Python_Graph2Search_no_edge_all_test'
+index_file: '/graph-based-search/graph_search_nn/src/config/python_index.json'
+index_name: 'python_code_vecs'
+query_file: ‘/data/code_search_data/CodeSearchNet/resources/queries.csv'
+answer_file: '/graph-based-search/graph_search_nn/answers/Python_GraphAns.csv'
+
+
+# Preprocessing
+top_word_vocab: 150000
+min_word_freq: 3
+
+# Model architecture
+model_name: 'Graph2Search'     # Graph2Search
+
+# Embedding
+word_embed_dim: 128
+fix_word_embed: False
+edge_embed_dim: 32
+
+graph_hidden_size: 128
+
+# Regularization
+word_dropout: 0.3
+enc_rnn_dropout: 0.3
+
+
+# Graph neural networks
+graph_type: 'ggnn_bi'       # ggnn_bi
+graph_hops: 4        # 3 is optimal
+graph_direction: 'all'    # 'all', 'forward', 'backward'
+message_function: 'no_edge'   # 'edge_mm', 'edge_network', 'edge_pair', 'no_edge'
+
+heads: 2
+code_info_type: 'all'     # local, global, all
+des_info_type: 'all'     # local, global, all
+
+# Training
+optimizer: 'adam'
+learning_rate: 0.01
+grad_clipping: 10
+grad_accumulated_steps: 1
+early_stop_metric: 'MRR'
+
+random_seed: 2020
+shuffle: True # Whether to shuffle the examples during training
+max_epochs: 1000
+batch_size: 1000 # No. of dialogs per batch
+patience: 10
+verbose: 1000 # Print every X batches
+
+# Testing
+test_batch_size: 1000
+save_params: True # Whether to save params
+logging: True # Turn it off for Codalab
+# Device
+no_cuda: False
+cuda_id: 1
